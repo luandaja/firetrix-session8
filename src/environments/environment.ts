@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyAijUBbvelzBH5ChnFVeoswxJ-AFD4HK-Y',
+    authDomain: 'firetrix-teacher-app.firebaseapp.com',
+    databaseURL: 'https://firetrix-teacher-app.firebaseio.com',
+    projectId: 'firetrix-teacher-app',
+    storageBucket: 'firetrix-teacher-app.appspot.com',
+    messagingSenderId: '971482280813'
+  }
 };
 
 /*
