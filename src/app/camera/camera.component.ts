@@ -41,7 +41,9 @@ export class CameraComponent implements OnInit {
 
     this.captures.push(this.canvas.nativeElement.toDataURL('image/png'));
     this.canvas.nativeElement.toBlob(blob => {
-      this.uploadFile(blob);
+      this.uploadFile(blob)
+        .percentageChanges()
+        .subscribe(p => (this.uploadProgress = p));
     });
   }
   uploadFile(file) {
