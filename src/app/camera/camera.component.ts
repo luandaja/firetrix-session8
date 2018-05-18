@@ -1,4 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AngularFireStorage } from 'angularfire2/storage';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { firebase } from '@firebase/app';
 
 @Component({
   selector: 'app-camera',
@@ -11,7 +14,10 @@ export class CameraComponent implements OnInit {
   video: HTMLVideoElement;
   captures: Array<any>;
   uploadProgress: Number;
-  constructor() {
+  constructor(
+    private auth: AngularFireAuth,
+    private storage: AngularFireStorage
+  ) {
     this.captures = [];
   }
 
@@ -34,7 +40,20 @@ export class CameraComponent implements OnInit {
       .drawImage(this.video, 0, 0, 640, 480);
 
     this.captures.push(this.canvas.nativeElement.toDataURL('image/png'));
-    this.canvas.nativeElement.toBlob(blob => {});
+    this.canvas.nativeElement.toBlob(blob => {
+      this.uploadFile(blob);
+    });
   }
-  uploadFile(file) {}
+  uploadFile(file) {
+    const filePath = `session8/${Date.now()}.png`;
+    const ref = this.storage.ref(filePath);
+    const task = ref.put(file);
+    return task;
+  }
+  resetCamera() {
+    this.video.play();
+  }
+  loginWithGoogle() {
+    this.auth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  }
 }
